@@ -1,9 +1,10 @@
 import React from 'react'
+import place_holder from '../img/poster_holder.jpg'
 
 const MovieDisplay = ({movieData}) => {
     let image = movieData.Poster
     if(image==null || image == undefined || image == 'N/A')
-        image="../img/poster_holder.jpg"
+        image=place_holder
     return(
         <div class='movieDiv'>
             <h3>
