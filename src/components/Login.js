@@ -1,22 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
-import '../LogReg.css'
+import {render} from "react-dom";
 
 const Login = () => {
     const loginUrl = 'http://localhost:8081/users/login'
-    const [validated, setValidated] = useState(false)
+    const [form, setForm] = useState({})
+    const [errors, setErrors] = useState({})
 
-    const handleSubmit = async(login) => {
-        login.preventDefault()
-        login.stopPropagation()
-        const form = login.currentTarget;
-        if(form.checkValidity() === false){
-            setValidated(true);
-            return
-        }
+    const handleSubmit = async(event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
+
+        const newErrors = findFormErrors();
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
+        } else return;
+
         try {
             await axios.post(loginUrl, {
                 name: form.formName.value,
@@ -33,6 +37,12 @@ const Login = () => {
             console.error(e);
         }
         form.reset()
+    }
+
+    const setField = (field, value) => {
+        setForm({
+            [field]: value
+        })
     }
 /*
 const Login = () => {
@@ -73,6 +83,15 @@ const Login = () => {
 
     } */
 
+    const findFormErrors = () => {
+        const {name, password} = form
+        const newErrors = {}
+        if ( !name || name === '' ) newErrors.name = 'Anna käyttäjänimi'
+        else if ( !password || password === '' ) newErrors.password = 'Anna salasana'
+
+        return newErrors;
+    }
+
     const logOut = (event) => {
         localStorage.setItem("auth-token", null);
         localStorage.setItem("logged-user", null);
@@ -86,19 +105,19 @@ const Login = () => {
     return (
         <body>
         <div id="logregdiv" class="logreg_text">
-
-            <Form id="logform" noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form id="logform"
+                  noValidate
+                  onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formName">
                     <Form.Label class="label">Käyttäjänimi</Form.Label>
                     <InputGroup>
                         <Form.Control
-                            required
-                            class="input"
                             type="text"
-                            placeholder="matti69"
+                            class="input"
+                            onChange={e => setField('username',e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
-                            Syötä käyttäjänimi
+                            {errors.name}
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -109,10 +128,10 @@ const Login = () => {
                             required
                             class="input"
                             type="password"
-                            placeholder=""
+                            onChange={e => setField('password',e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
-                            Syötä salasana
+                            {errors.name}
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
@@ -128,6 +147,7 @@ const Login = () => {
         </div>
         </body>
     )
+    render(<Login />)
 }
 
 export default Login

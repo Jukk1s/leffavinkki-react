@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial, Verdana, sans-serif;
     background-color: #333333;
@@ -30,10 +31,10 @@ body {
 #logInBtn:hover {
     background-color: #333333;
 }
-
+/*
 #logform {
     visibility: visible;
-}
+} */
 
 #logregdiv {
     position: relative;
