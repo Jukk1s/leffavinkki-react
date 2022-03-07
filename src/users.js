@@ -126,6 +126,7 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
 
         const password = jsonObject.password;
         const email = jsonObject.email;
+        const name = jsonObject.name;
 
         var sql = "SELECT * FROM users WHERE name = ? OR email = ?";
         var string;

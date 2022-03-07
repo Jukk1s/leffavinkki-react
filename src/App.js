@@ -21,11 +21,20 @@ const App = () => {
 
       <div className="navbar">
 
-        <Router>
-          <Link style={padding} to="/" className="active home">Koti</Link>
-          <Link style={padding} to="/login">Kirjautuminen</Link>
-          <Link style={padding} to="/register">Rekisteröinti</Link>
-        </Router>
+          <Router>
+              <div>
+                  <Link style={padding} to="/login">Kirjaudu sisään</Link>
+                  <Link style={padding} to="/register">Rekisteröinti</Link>
+                  <Link style={padding} to="/">Koti</Link>
+                  <h3 style={padding}>Perse</h3>
+              </div>
+
+              <Routes>
+                  <Route path="/login" element={<Login/>}/>
+                  <Route path="/register" element={<Register/>}/>
+                  <Route path="/" element={<Home/>}/>
+              </Routes>
+          </Router>
 
       </div>
 
