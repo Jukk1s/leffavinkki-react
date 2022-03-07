@@ -121,8 +121,97 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
         }
     });
 
-//http://localhost:8081/users/register?name=nimi&password=salasana&email=sähköposti
-//http://localhost:8081/users/register?name=&password=&email=
+    app.post('/users/register', (req,res) => {
+        const jsonObject = req.body;
+
+        const password = jsonObject.password;
+        const email = jsonObject.email;
+
+        var sql = "SELECT * FROM users WHERE name = ? OR email = ?";
+        var string;
+        if(!name || !password || !email)
+            res.header('register', "Rekisteröinti epäonnistui. Käyttäjänimi, sähköposti tai salasana on puutteelinen.").send();
+        else
+            (async () => {
+                try {
+                    const rows = await query(sql, [name, email]);
+
+                    string = JSON.stringify(rows);
+                    if(rows.length > 0){
+                        res.header('register'," Rekisteröinti epäonnistui. Käyttäjänimi tai sähköposti on jo käytössä.").send();
+                    } else {
+
+                        sql = "INSERT INTO users (name, email, password) "
+                            + "VALUES (?, ?, SHA1(?))"
+                        const rows2 = await query(sql, [name, email, password]);
+                        string = JSON.stringify(rows2);
+                        const newUserId = rows2.insertId;
+                        console.log("Uusi käyttäjä, id: "+newUserId);
+                        sql = "INSERT INTO profiles (id) "
+                            + "VALUES (?)"
+                        const rows3 = await query(sql, [newUserId]);
+                        const token = jwt.sign({id: newUserId}, process.env.TOKEN_SECRET);
+                        res.header('accessToken', token);
+                        res.header('register',"onnistui");
+                        res.status(200).send();
+                    }
+                }
+                catch (err){
+                    console.log("Database error!"+err);
+                }
+                finally {
+
+                }
+            })();
+    });
+
+    app.post('/users/login',cors(), (req, res) => {
+
+        var jsonObject = req.body;
+
+        const password = jsonObject.password;
+        const email = jsonObject.email;
+
+        var sql = "SELECT * FROM users WHERE email = ? AND password = SHA1(?)";
+        var string;
+        if(!email || !password) {
+            res.header("login", "Sähköposti tai salasana ei ole määritetty.");
+            res.header("status", "failed").send();
+        } else (async () => {
+            try {
+                const rows = await query(sql, [email, password]);
+
+                string = JSON.stringify(rows);
+                if(rows.length > 0){
+                    console.log("Käyttäjä kirjautui, id "+rows[0].id);
+                    //Tehdään token
+                    const token = jwt.sign({id: rows[0].id}, process.env.TOKEN_SECRET);
+                    res.header('accessToken', token);
+                    res.header('username', rows[0].name);
+                    res.header('email', rows[0].email);
+                    res.header('id', rows[0].id);
+                    res.header("login", "Kirjautuminen onnistui.");
+                    res.header("status", "success");
+                    res.status(200).send();
+                } else {
+                    string = JSON.stringify(rows);
+                    res.header("login", "Kirjautuminen epäonnistui. Sähköposti ja salasana eivät täsmää.");
+                    res.header("status", "failed").send();
+                }
+            }
+            catch (err){
+                console.log("Database error!"+err);
+            }
+            finally {
+
+            }
+        })();
+    })
+
+    /* VANHAA KOODIA
+
+    //http://localhost:8081/users/register?name=nimi&password=salasana&email=sähköposti
+    //http://localhost:8081/users/register?name=&password=&email=
     app.post('/users/register', (req,res) => {
         const name = req.body.username;
         const password = req.body.password;
@@ -200,4 +289,6 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
             }
         })();
     })
+
+     */
 }
