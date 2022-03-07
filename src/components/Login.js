@@ -3,7 +3,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
-
+import '../Login.css'
 
 const Login = () => {
     const loginUrl = 'http://localhost:8081/users/login'
@@ -84,8 +84,9 @@ const Login = () => {
     }
 
     return (
+        <body>
         <div id="logregdiv">
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form class="logreg_text" id="logform" noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formName">
                     <Form.Label>Käyttäjänimi</Form.Label>
                     <InputGroup>
@@ -113,13 +114,14 @@ const Login = () => {
                     </InputGroup>
                 </Form.Group>
 
-                <Button type="submit">
+                <Button id="logInBtn"type="submit">
                     Kirjaudu
                 </Button>
             </Form>
 
             <button id="logOutBtn" onClick={logOut} value="Kirjaudu ulos">Kirjaudu ulos</button>
         </div>
+        </body>
     )
 }
 
