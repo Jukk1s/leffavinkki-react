@@ -23,10 +23,9 @@ const Register = () => {
                 password: form.formPassword.value
             }).then(resp => {
                 if(resp.status === 200){
-                    localStorage.setItem('accessToken', resp.data.accessToken);
-                    console.log("Successful login attempt");
+                    console.log("Rekisteröinti onnistui!");
                 } else {
-                    console.log("Error with login")
+                    console.log("Virhe rekisteröinnissä.")
                 }
             });
         } catch (e){

@@ -131,7 +131,7 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
         var sql = "SELECT * FROM users WHERE name = ? OR email = ?";
         var string;
         if(!name || !password || !email)
-            res.header('register', "Rekisteröinti epäonnistui. Käyttäjänimi, sähköposti tai salasana on puutteelinen.").send();
+            res.status(400).send("Registration needs email and password.");
         else
             (async () => {
                 try {
@@ -151,8 +151,6 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
                         sql = "INSERT INTO profiles (id) "
                             + "VALUES (?)"
                         const rows3 = await query(sql, [newUserId]);
-                        const token = jwt.sign({id: newUserId}, process.env.TOKEN_SECRET);
-                        res.header('accessToken', token);
                         res.header('register',"onnistui");
                         res.status(200).send();
                     }
@@ -171,16 +169,16 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
         var jsonObject = req.body;
 
         const password = jsonObject.password;
-        const email = jsonObject.email;
+        const name = jsonObject.name;
 
-        var sql = "SELECT * FROM users WHERE email = ? AND password = SHA1(?)";
+        var sql = "SELECT * FROM users WHERE name = ? AND password = SHA1(?)";
         var string;
-        if(!email || !password) {
-            res.header("login", "Sähköposti tai salasana ei ole määritetty.");
+        if(!name || !password) {
+            res.header("login", "Käyttäjänimi tai salasana ei ole määritetty.");
             res.header("status", "failed").send();
         } else (async () => {
             try {
-                const rows = await query(sql, [email, password]);
+                const rows = await query(sql, [name, password]);
 
                 string = JSON.stringify(rows);
                 if(rows.length > 0){
