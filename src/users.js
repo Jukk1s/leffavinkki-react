@@ -185,17 +185,22 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
                     console.log("Käyttäjä kirjautui, id "+rows[0].id);
                     //Tehdään token
                     const token = jwt.sign({id: rows[0].id}, process.env.TOKEN_SECRET);
-                    res.header('accessToken', token);
-                    res.header('username', rows[0].name);
-                    res.header('email', rows[0].email);
-                    res.header('id', rows[0].id);
-                    res.header("login", "Kirjautuminen onnistui.");
-                    res.header("status", "success");
-                    res.status(200).send();
+
+                    res.status(200).json({
+                        accesstoken: token,
+                        username: rows[0].name,
+                        email: rows[0].email,
+                        id: rows[0].id,
+                        login: "kirjautuminen onnistui",
+                        status: "success"
+                    });
+
                 } else {
                     string = JSON.stringify(rows);
-                    res.header("login", "Kirjautuminen epäonnistui. Sähköposti ja salasana eivät täsmää.");
-                    res.header("status", "failed").send();
+                    res.status(401).json({
+                        login: "Käyttäjätunnus ja salasana eivät täsmää.",
+                        status: "failure"
+                    });
                 }
             }
             catch (err){
