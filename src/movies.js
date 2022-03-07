@@ -2,6 +2,7 @@ const apiUrl = "http://www.omdbapi.com/?r=json&type=movie&";
 
 const verify = require('./verifyToken');
 const readToken = require('./readToken');
+const axios = require('axios').default;
 
 //Käytetään arraytä, sillä rajapinta rajoittaa 1000-hakemusta
 //per päivä/avain niin on helppo implementoida jos avain vaihtuisi
@@ -108,75 +109,82 @@ module.exports = function(app, cors, url, query, fetch, bodyParser) {
     //yksi parametri jolloin palvelin lähettää pyynnön
     //eteen päin ja palauttaa apin JSON palautuksen
     //käyttäjälle.
-    app.get('/movies', cors(), function (req, res) {
+    app.post('/movies', cors(), function (req, res) {
 
-        var q = url.parse(req.url, true).query;
+        const jsonObject = req.body;
+        console.log('yritys', jsonObject)
+
         let pagecount = 1;
         let parameters = "";
         let paramCount = 0;
         let separators = 0;
 
         //Katsotaan lähetetyt parametrit ja lisätään ne muuttujaan
-        if ('s' in q) {
+        if (jsonObject.hasOwnProperty('s')) {
             //Jos on jo parametri eikä välissä ole & merkkiä
             if (paramCount > separators) {
                 separators++;
                 parameters += "&";
             }
 
-            parameters += "s=" + q.s;
+            parameters += "s=" + jsonObject.s;
             paramCount++;
         }
-        if ('y' in q) {
+        if (jsonObject.hasOwnProperty('y') && jsonObject.y != null) {
             //Jos on jo parametri eikä välissä ole & merkkiä
             if (paramCount > separators) {
                 separators++;
                 parameters += "&";
             }
 
-            parameters += "y=" + q.y;
+            parameters += "y=" + jsonObject.y;
             paramCount++;
         }
-        if ('i' in q) {
+        if (jsonObject.hasOwnProperty('i')) {
             //Jos on jo parametri eikä välissä ole & merkkiä
             if (paramCount > separators) {
                 separators++;
                 parameters += "&";
             }
 
-            parameters += "i=" + q.i;
+            parameters += "i=" + jsonObject.i;
             paramCount++;
         }
-        if ('plot' in q) {
+        if (jsonObject.hasOwnProperty('plot')) {
             //Jos on jo parametri eikä välissä ole & merkkiä
             if (paramCount > separators) {
                 separators++;
                 parameters += "&";
             }
 
-            parameters += "plot=" + q.plot;
+            parameters += "plot=" + jsonObject.plot;
             paramCount++;
         }
-        if ('page' in q) {
-            if (q.page > 1) {
-                pagecount = q.page;
+        if (jsonObject.hasOwnProperty('page')) {
+            if (jsonObject.page > 1) {
+                pagecount = jsonObject.page;
                 if (pagecount > 3)
                     pagecount = 3;
             }
         }
         if (paramCount > 0 && pagecount > 1) {
+            console.log('Täällä?');
             const page = "&page=";
             (async () => {
                 console.log("Search request: " + apiUrl + parameters + apiKeys[0] + " pages " + pagecount);
                 try {
                     //Etistään ensiksi yhden sivun verran elokuva "10" (page=1)
-                    let movies = await fetch(apiUrl + parameters + page + "1" + apiKeys[0]);
-                    let jsonResponse = await movies.json();
+                    let movies = await axios.get(apiUrl + parameters + page + "1" + apiKeys[0]);
+                    //let jsonResponse = await movies.json();
+                    let jsonResponse = movies.data;
+                    console.log(jsonResponse)
 
                     //Tämän jälkeen lisätään vielä niin monta sivua elokuva kuin kysytään (max 3)
                     for (let i = 2; i <= pagecount; i++) {
-                        let response = await fetch(apiUrl + parameters + page + i + apiKeys[0]);
-                        let reponseJSON = await response.json();
+
+                        let response = await axios.get(apiUrl + parameters + page + i + apiKeys[0]);
+                        let reponseJSON = response.data;
+                        //let reponseJSON = await response.json();
                         // console.log(JSON.stringify(reponseJSON));
                         if (reponseJSON.Search) {
                             for (let i = 0; i < Object.keys(reponseJSON.Search).length; i++) {
@@ -186,7 +194,7 @@ module.exports = function(app, cors, url, query, fetch, bodyParser) {
                         }
                     }
                     if (movies) {
-                        res.json(jsonResponse);
+                        res.status(200).json(jsonResponse);
                     }
                 } catch (error) {
                     console.log(error);
@@ -196,10 +204,9 @@ module.exports = function(app, cors, url, query, fetch, bodyParser) {
             (async () => {
                 console.log("Search request: " + apiUrl + parameters + apiKeys[0]);
                 try {
-                    const response = await fetch(apiUrl + parameters + apiKeys[0]);
-                    if (response) {
-                        const jsonResponse = await response.json();
-                        res.json(jsonResponse);
+                    const response = await axios.get(apiUrl + parameters + apiKeys[0]);
+                    if (response.data) {
+                        res.status(200).json(response.data);
                     }
                 } catch (error) {
                     console.log(error);
