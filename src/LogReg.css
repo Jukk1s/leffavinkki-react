@@ -49,6 +49,7 @@ body {
     box-shadow: 5px 10px #888888;
     border-radius: 8px;
     font-size: 20px;
+    text-align: center;
 }
 
 #regbutton {
@@ -79,11 +80,11 @@ body {
     border-radius: 5px;
 }
 
-.labeli {
+.label {
     font-size: 30px;
 }
 
-.inputti {
+.input {
     font-size: 20px;
 }
 #logform {

@@ -3,6 +3,7 @@ import axios from 'axios'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
+import '../LogReg.css'
 
 const Register = () => {
     const loginUrl = 'http://localhost:8081/users/register'
@@ -35,17 +36,17 @@ const Register = () => {
     }
 
     return (
-        <div className="container">
+        <body>
+        <div  id="logregdiv" class="logreg_text">
+
             <div>
-                <p>Rekisteröidy</p>
-            </div>
-            <div>
-                <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="formName">
-                        <Form.Label>Käyttäjänimi</Form.Label>
+                <Form id="logform" noValidate validated={validated} onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="formName" >
+                        <Form.Label class="label">Käyttäjänimi</Form.Label>
                         <InputGroup>
                             <Form.Control
                                 required
+                                class="input"
                                 type="text"
                                 placeholder="matti69"
                             />
@@ -56,10 +57,11 @@ const Register = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formEmail">
-                        <Form.Label>Sähköpostiosoite</Form.Label>
+                        <Form.Label class="label">Sähköpostiosoite</Form.Label>
                         <InputGroup>
                             <Form.Control
                                 required
+                                class="input"
                                 type="email"
                                 placeholder="esimerkki@sposti.fi"
                             />
@@ -70,10 +72,11 @@ const Register = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formPassword">
-                        <Form.Label>Salasana</Form.Label>
+                        <Form.Label class="label">Salasana</Form.Label>
                         <InputGroup>
                             <Form.Control
                                 required
+                                class="input"
                                 type="password"
                                 placeholder=""
                             />
@@ -83,13 +86,14 @@ const Register = () => {
                         </InputGroup>
                     </Form.Group>
 
-                    <Button type="submit">
+                    <Button id="regbutton" type="submit">
                         Rekisteröidy
                     </Button>
                 </Form>
 
             </div>
         </div>
+        </body>
     )
 }
 
