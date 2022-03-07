@@ -19,9 +19,7 @@ const Login = () => {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
-        } else {
-            return;
-        }
+        } else return;
 
         try {
             await axios.post(loginUrl, {
@@ -92,7 +90,6 @@ const Login = () => {
         else if ( !password || password === '' ) newErrors.password = 'Anna salasana'
 
         return newErrors;
-
     }
 
     const logOut = (event) => {
@@ -106,7 +103,6 @@ const Login = () => {
     }
 
     return (
-
         <body>
         <div id="logregdiv" class="logreg_text">
             <Form id="logform"

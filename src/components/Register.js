@@ -7,16 +7,18 @@ import '../LogReg.css'
 
 const Register = () => {
     const loginUrl = 'http://localhost:8081/users/register'
-    const [validated, setValidated] = useState(false)
+    const [form, setForm] = useState({})
+    const [errors, setErrors] = useState({})
 
-    const handleSubmit = async(login) => {
-        login.preventDefault()
-        login.stopPropagation()
-        const form = login.currentTarget;
-        if(form.checkValidity() === false){
-            setValidated(true);
-            return
-        }
+    const handleSubmit = async(event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        const newErrors = findFormErrors();
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
+        } else return;
+
         try {
             await axios.post(loginUrl, {
                 email: form.formEmail.value,
@@ -35,12 +37,28 @@ const Register = () => {
         form.reset()
     }
 
+    const setField = (field, value) => {
+        setForm({
+            [field]: value
+        })
+    }
+
+    const findFormErrors = () => {
+        const {name, email, password} = form
+        const newErrors = {}
+        if ( !name || name === '' ) newErrors.name = 'Anna käyttäjänimi'
+        else if ( !email || email === '' ) newErrors.email = 'Anna sähköposti'
+        else if ( !password || password === '' ) newErrors.password = 'Anna salasana'
+
+        return newErrors;
+    }
+
     return (
         <body>
         <div  id="logregdiv" class="logreg_text">
 
             <div>
-                <Form id="logform" noValidate validated={validated} onSubmit={handleSubmit}>
+                <Form id="logform" noValidate onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formName" >
                         <Form.Label class="label">Käyttäjänimi</Form.Label>
                         <InputGroup>
@@ -48,10 +66,10 @@ const Register = () => {
                                 required
                                 class="input"
                                 type="text"
-                                placeholder="matti69"
+                                onChange={e => setField('username',e.target.value)}
                             />
                             <Form.Control.Feedback type="invalid">
-                                Syötä käyttäjänimi
+                                {errors.name}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
@@ -63,10 +81,10 @@ const Register = () => {
                                 required
                                 class="input"
                                 type="email"
-                                placeholder="esimerkki@sposti.fi"
+                                onChange={e => setField('email',e.target.value)}
                             />
                             <Form.Control.Feedback type="invalid">
-                                Syötä sähköpostiosoite
+                                {errors.name}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
@@ -78,10 +96,10 @@ const Register = () => {
                                 required
                                 class="input"
                                 type="password"
-                                placeholder=""
+                                onChange={e => setField('password',e.target.value)}
                             />
                             <Form.Control.Feedback type="invalid">
-                                Syötä salasana
+                                {errors.name}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
