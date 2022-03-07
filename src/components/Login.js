@@ -6,7 +6,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 
 
 const Login = () => {
-    const loginUrl = 'http://localhost:8081/login'
+    const loginUrl = 'http://localhost:8081/users/login'
     const [validated, setValidated] = useState(false)
 
     const handleSubmit = async(login) => {
@@ -19,7 +19,7 @@ const Login = () => {
         }
         try {
             await axios.post(loginUrl, {
-                email: form.formEmail.value,
+                name: form.formName.value,
                 password: form.formPassword.value
             }).then(resp => {
                 if(resp.status === 200){
@@ -86,16 +86,16 @@ const Login = () => {
     return (
         <div id="logregdiv">
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formEmail">
-                    <Form.Label>Sähköpostiosoite</Form.Label>
+                <Form.Group className="mb-3" controlId="formName">
+                    <Form.Label>Käyttäjänimi</Form.Label>
                     <InputGroup>
                         <Form.Control
                             required
-                            type="email"
-                            placeholder="esimerkki@sposti.fi"
+                            type="text"
+                            placeholder="matti69"
                         />
                         <Form.Control.Feedback type="invalid">
-                            Syötä sähköpostiosoite
+                            Syötä käyttäjänimi
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>

@@ -4,7 +4,7 @@ import React from 'react'
 
 import {
     BrowserRouter as Router,
-    Switch, Route, Link
+    Routes, Route, Link
 } from 'react-router-dom'
 
 import Login from './components/Login'
@@ -35,18 +35,6 @@ const App = () => {
                   <Route path="/" element={<Home/>}/>
               </Routes>
           </Router>
-
-          <Switch>
-              <Route path="/login">
-                  <Login />
-              </Route>
-              <Route path="/register">
-                  <Register />
-              </Route>
-              <Route path="/">
-                  <Home />
-              </Route>
-          </Switch>
 
       </div>
 
