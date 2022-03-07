@@ -21,9 +21,9 @@ const Login = () => {
             await axios.post(loginUrl, {
                 name: form.formName.value,
                 password: form.formPassword.value
-            }).then(resp => {
-                if(resp.status === 200){
-                    localStorage.setItem('accessToken', resp.data.accessToken);
+            }).then((response) => {
+                if(response.status === 200){
+                    localStorage.setItem('accessToken', response.data.accesstoken);
                     console.log("Successful login attempt");
                 } else {
                     console.log("Error with login")
