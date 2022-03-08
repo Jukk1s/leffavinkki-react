@@ -2,6 +2,7 @@ import React, {useEffect,useState} from 'react'
 import {useLocation} from "react-router-dom";
 import axios from "axios";
 import Comments from "./Comments";
+import CommentField from "./CommentField";
 
 const server = "http://localhost:8081";
 const movieSearchUrl = "/movies";
@@ -9,14 +10,21 @@ const movieCommentsUrl = "/movies/getcomments?id=";
 const movieReviewsUrl = "/movies/getreviews?id=";
 
 const Movie = () => {
+    localStorage.removeItem('accessToken');
+
     const [isLoading, setLoading] = useState(true);
     const [movieComments, setMovieComments] = useState();
     const [movieData, setMovieData] = useState();
+    const [isSignedIn, setIsSignedIn] = useState(false);
 
     const search = useLocation().search;
     const movieId = new URLSearchParams(search).get('id');
 
     useEffect(()=>{
+        if (localStorage.getItem('accessToken') !== null) {
+            setIsSignedIn(true);
+        }
+
         if(movieId!==undefined){
 
             (async() => {
@@ -54,19 +62,38 @@ const Movie = () => {
     }
 
     return (
-        <div className="profile">
-            <h1>Nimi: {movieData.Title}</h1>
-            <h1>IMDB arvostelu: {movieData.imdbRating}/10</h1>
-            <h1>Pituus: {movieData.Runtime}</h1>
-            <h1>Genre: {movieData.Genre}</h1>
-            <h1>Ohjaaja: {movieData.Director}</h1>
-            <h1>Kirjoittaja: {movieData.Writer}</h1>
-            <h1>Näyttelijät: {movieData.Actors}</h1>
-            <h1>Metascore: {movieData.Metascore}</h1>
-            <img src={movieData.Poster}/>
-            <h1>Plotti: {movieData.Plot}</h1>
-            <Comments data={movieComments}/>
-        </div>
+        isSignedIn? (
+                <div className="profile">
+                    <h1>Nimi: {movieData.Title}</h1>
+                    <h1>IMDB-arvostelu: {movieData.imdbRating}/10</h1>
+                    <h1>Pituus: {movieData.Runtime}</h1>
+                    <h1>Genre: {movieData.Genre}</h1>
+                    <h1>Ohjaaja: {movieData.Director}</h1>
+                    <h1>Kirjoittaja: {movieData.Writer}</h1>
+                    <h1>Näyttelijät: {movieData.Actors}</h1>
+                    <h1>Metascore: {movieData.Metascore}</h1>
+                    <img src={movieData.Poster}/>
+                    <h1>Juoni: {movieData.Plot}</h1>
+                    <Comments data={movieComments}/>
+                    <CommentField/>
+                </div>
+
+        ) : (
+                <div className="profile">
+                    <h1>Nimi: {movieData.Title}</h1>
+                    <h1>IMDB-arvostelu: {movieData.imdbRating}/10</h1>
+                    <h1>Pituus: {movieData.Runtime}</h1>
+                    <h1>Genre: {movieData.Genre}</h1>
+                    <h1>Ohjaaja: {movieData.Director}</h1>
+                    <h1>Kirjoittaja: {movieData.Writer}</h1>
+                    <h1>Näyttelijät: {movieData.Actors}</h1>
+                    <h1>Metascore: {movieData.Metascore}</h1>
+                    <img src={movieData.Poster}/>
+                    <h1>Juoni: {movieData.Plot}</h1>
+                    <Comments data={movieComments}/>
+                </div>
+        )
+
     )
 
 }

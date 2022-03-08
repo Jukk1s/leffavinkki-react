@@ -44,30 +44,8 @@ const Login = () => {
             [field]: value
         })
     }
+
 /*
-const Login = () => {
-    const [new]
-
-    $('#logform').submit(function(e){
-        e.preventDefault();
-
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
-
-        var formData =  '{"email":"' + email + '", "password":"' + password + '"}';
-        var jsonFormData = JSON.parse(formData);
-
-        var xhr=$.ajax({
-            url: nodeServer + '/users/login',
-            type: 'post',
-            data: jsonFormData,
-            success:function(){
-                saveLoginInfo(xhr.getResponseHeader("auth-token"),xhr.getResponseHeader("username"),xhr.getResponseHeader("email"),xhr.getResponseHeader("id"));
-
-            }
-        });
-    });
-*/ /*
     function saveLoginInfo(token, username, email, id) {
         if (token != null) {
             console.log(token+username+email);
