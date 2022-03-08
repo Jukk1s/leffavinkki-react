@@ -15,12 +15,12 @@ const MovieDisplay = ({movieData}) => {
     }
 
     return(
-        <div class='movieDiv'>
+        <div className='movieDiv'>
             <div onClick={goToMovie}>
                 <h3>
                     {movieData.Title}
                 </h3>
-                <img src={image}/>
+                <img className="poster" src={image}/>
             </div>
         </div>
     )
