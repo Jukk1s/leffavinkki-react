@@ -43,7 +43,8 @@ const Login = () => {
 
     useEffect(()=>{
         const token = localStorage.getItem('accessToken')
-        if(token)
+        const userId = localStorage.getItem('user_id')
+        if(token&&userId)
             setIsSignedIn(true)
     })
 
