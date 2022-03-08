@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -40,6 +40,12 @@ const Login = () => {
         }
         form.reset()
     }
+
+    useEffect(()=>{
+        const token = localStorage.getItem('accessToken')
+        if(token)
+            setIsSignedIn(true)
+    })
 
     const setField = (field, value) => {
         setForm({
