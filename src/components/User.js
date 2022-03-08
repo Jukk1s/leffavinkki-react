@@ -4,6 +4,10 @@ import {useLocation} from "react-router-dom";
 
 import Comments from './Comments'
 
+import "../css/profile.css"
+
+import profilePicture from "../img/profile.png"
+
 const server = "http://localhost:8081";
 
 function calculateStatus(data){
@@ -28,6 +32,8 @@ const User = () => {
     const [userData, setUserData] = useState();
     const [userComments, setUserComments] = useState();
 
+    const [profileFound, setProfileFound] = useState(false);
+
     const search = useLocation().search;
     const id = new URLSearchParams(search).get('id');
 
@@ -37,18 +43,23 @@ const User = () => {
                 try{
                     const response = await axios.get(server+"/user?id="+id)
                     if(response.data){
-                        setUserData(response.data);
-                        setLoading(false);
+                        if (response.data[0].name) {
+                            setUserData(response.data);
+                            setProfileFound(true);
+                            const comments = await axios.get(server+"/usercomments?id="+id)
+                            if(comments.data){
+                                setUserComments(comments.data)
+                            }
+                        }
                     }
-                    const comments = await axios.get(server+"/usercomments?id="+id)
-                    if(comments.data){
-                        setUserComments(comments.data)
-                    }
+
                 } catch (error){
 
                 }
             })()
         }
+
+        setLoading(false);
     }, []);
 
     if(isLoading){
@@ -56,14 +67,51 @@ const User = () => {
     }
 
     return (
-        <div className="profile">
-            <h1>Nimi: {userData[0].name}</h1>
-            <h1>Titteli: {userData[0].status}</h1>
-            <h1>Kuvaus: {userData[1].description}</h1>
-            <h1>Arvostelut: {userData[1].reviews}</h1>
-            <h1>Status: {calculateStatus(userData)}</h1>
-            <Comments data={userComments}/>
-        </div>
+        profileFound? (
+            <div>
+                <div className="profile" id="top">
+                    <div id="profiilitekstit">
+                        <h1 id="name">Nimi: {userData[0].name}</h1>
+                        <h3 id="title">Titteli: {userData[0].status}</h3>
+
+                    </div>
+                    <img id="profilePicture" src={profilePicture}/>
+                </div>
+                <div id="middle">
+                    <div className="sideL">
+                        <h1/>
+                    </div>
+                    <div className="middle">
+
+                        <h2 className="silver textCenter">Minusta</h2>
+                        <h4 id="description" className="textCenter, white">{userData[1].description}</h4>
+
+                        <div id="editButton"></div>
+
+                        <h2 id="reviewsCount" className="reviewsCount">Kommentit</h2>
+                        <Comments data={userComments}/>
+                    </div>
+
+                    </div>
+                    <div className="sideR">
+                        <div id="info">
+                            <h3>Status</h3>
+                            <h5 id="status">{calculateStatus(userData)}</h5>
+                            <h3>Katsotuimmat genret</h3>
+                            <h5 id="mostViewed">Genret joita käyttäjä eniten arvostellut (ei implementoitu)</h5>
+                            <h3>Arvostelut</h3>
+                            <h5 id="reviewsC">{userData[1].reviews}</h5>
+                            <h3>Kommentit</h3>
+                            <h5 id="commentCount" className="reviewsCount">Kommenttien lukumäärä</h5>
+                        </div>
+                    </div>
+            </div>
+
+        ) : (
+            <div>
+                <h1 className="white textCenter">Profiilia ei löytynyt</h1>
+            </div>
+        )
     )
 
 }

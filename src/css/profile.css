@@ -1,0 +1,75 @@
+#top {
+    padding: 200px 52px 25px 0;
+    background-color: #333333;
+    position: relative;
+}
+
+.commentContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: auto; margin-right: auto;
+    width: 80%;
+    box-shadow: 10px 10px rgba(40, 40, 40, 0.57);
+}
+
+#name, #title, #genres, #reviewsCount{
+    color: silver;
+}
+
+#name, #title, #genres, .reviewsCount, #mostViewed, #status, #commentCount, #description, #reviewsC {
+    text-align: center;
+}
+
+#reviews {
+    width: 90%;
+    margin-left: auto; margin-right: auto;
+    padding: 10px;
+}
+
+#profilePicture {
+    width: 300px;
+    position: absolute;
+    bottom:-10%;
+    right: 65%;
+}
+
+.middle {
+    float: left;
+    width: 59%;
+}
+
+.sideL, .sideR {
+    width: 19%;
+}
+
+.sideL {
+    float:left;
+}
+
+.sideR {
+    float:right;
+}
+
+.textCenter{
+    text-align: center;
+}
+
+.white{
+    color: white;
+}
+
+#info {
+    border-radius: 15px;
+    background-color: darkorange;
+    background-image: linear-gradient(180deg,darkorange,orange);
+    border: 4px solid black;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 40px 40px 20px 10px;
+}
+
+.orangeBorder {
+    border: darkorange 2px solid;
+}
