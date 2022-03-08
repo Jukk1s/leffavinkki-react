@@ -4,18 +4,10 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 import MoviesContainer from "./MoviesContainer";
+import {removeAekkoset, getMovies} from "../scripts/movie-functions"
 
 const MOVIE_STORAGE_KEY = "lastSearch"
 const pagesToLoad = 3;
-
-function removeAekkoset(str){
-    console.log(str);
-    str = str.replace(/ä/g, 'a');
-    console.log("-->"+str);
-    str = str.replace(/ö/g, 'o');
-    console.log("-->"+str);
-    return str;
-}
 
 const Home = () => {
     const [movies, setMovies] = useState([])
@@ -32,7 +24,7 @@ const Home = () => {
     const movieUrl = 'http://localhost:8081/movies'
     const [validated, setValidated] = useState(false)
 
-    const getMovies = async(event) => {
+    const searchMovie = async(event) => {
         event.preventDefault()
         event.stopPropagation()
         const form = event.currentTarget;
@@ -51,20 +43,11 @@ const Home = () => {
 
             console.log(name, movieYear)
 
-            await axios.post(movieUrl, {
-                s: name,
-                y: movieYear,
-                page: pagesToLoad
-            }).then(resp => {
-                if(resp.status === 200){
-                    console.log("Elokuvien haku onnistui!");
-                    const perse = resp.data
-                    console.log(perse.Search)
-                    setMovies(perse.Search)
-                } else {
-                    console.log("Virhe elokuvien hakemisessa.")
-                }
-            });
+            const result = await getMovies(name,movieYear,pagesToLoad).then(resp=>{
+                setMovies(resp)
+            })
+            console.log(result)
+
         } catch (e){
             console.error(e);
         }
@@ -77,7 +60,7 @@ const Home = () => {
                 <p>Elokuvien haku</p>
             </div>
             <div>
-                <Form noValidate validated={validated} onSubmit={getMovies}>
+                <Form noValidate validated={validated} onSubmit={searchMovie}>
                     <Form.Group className="mb-3" controlId="formName">
                         <Form.Label>Elokuvan nimi</Form.Label>
                         <InputGroup>
