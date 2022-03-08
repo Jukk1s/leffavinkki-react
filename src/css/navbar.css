@@ -57,3 +57,13 @@ footer {
 #root{
     margin:0;
 }
+
+#noFoundMovie {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+.centerText{
+    text-align: center;
+}

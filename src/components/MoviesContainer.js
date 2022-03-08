@@ -2,7 +2,7 @@ import React from 'react'
 import MovieDisplay from "./MovieDisplay";
 
 export default function MoviesContainer({movies}) {
-    if(movies!= null || movies!= undefined)
+    if(movies!= null)
         return(
             <div id="resultField">{
                 movies.map(movie => {
@@ -14,7 +14,7 @@ export default function MoviesContainer({movies}) {
     else
         return(
             <div>
-                <h1>VITTU</h1>
+                <h1>Ei valitettavasti löytynyt elokuvia</h1>
             </div>
         )
 }

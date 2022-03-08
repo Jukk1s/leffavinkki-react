@@ -1,19 +1,13 @@
 import React from 'react'
 import '../comments.css'
-import {useNavigate} from "react-router-dom";
 
 const SingleComment = (data) => {
-    const navigate = useNavigate();
-
-    const goToProfile = () => {
-        navigate("/user?id="+data.data.id);
-    }
-
+    const href = "/user?id="+data.data.users_id;
     return(
         <div className='comment'>
-            <h3 onClick={goToProfile}>
-                {data.data.name}
-            </h3>
+            <a href={href}>
+                <h3>{data.data.name}</h3>
+            </a>
             <h3>
                 {data.data.movie_title}
             </h3>
