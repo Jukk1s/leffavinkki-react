@@ -3,11 +3,16 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
+import {useLocation} from "react-router-dom";
 
-const CommentField = () => {
+
+const CommentField = (movieData) => {
     const commentUrl = 'http://localhost:8081/movies/addcomment'
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
+
+    const search = useLocation().search;
+    let movieId = '';
 
     const handleSubmit = async(event) => {
         const form = event.currentTarget;
@@ -15,16 +20,18 @@ const CommentField = () => {
         event.stopPropagation();
 
         const newErrors = findFormErrors();
-
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else return;
 
-        const token = localStorage.getItem("accesstoken");
+        const token = localStorage.getItem("accessToken");
         try {
+            movieId = new URLSearchParams(search).get('id')
             await axios.post(commentUrl, {
                 header: form.formHeader.value,
-                comment: form.formComment.value
+                content: form.formComment.value,
+                movieId: movieId,
+                movieTitle: movieData.data.Title
             },{ headers: {'Authorization': 'Bearer: ' + token}
                 }).then((response) => {
                 if(response.status === 200){
@@ -101,7 +108,7 @@ const CommentField = () => {
                         <Form.Control
                             required
                             class="input"
-                            type="password"
+                            type="text"
                             placeholder="Kommentti"
                             onChange={e => setField('comment',e.target.value)}
                         />
