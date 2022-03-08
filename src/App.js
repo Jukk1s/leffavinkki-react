@@ -1,5 +1,5 @@
 import './css/navbar.css'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 import logo from './img/leffavinkki.png'
 
@@ -18,6 +18,25 @@ import {getMovies, removeAekkoset} from "./scripts/movie-functions";
 const MOVIE_STORAGE_KEY = "lastSearch"
 
 const App = () => {
+    const [isSignedIn, setIsSignedIn] = useState(false)
+    const [profile, setProfile] = useState(null)
+
+    const logOut = (event) => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user_id");
+        setIsSignedIn(false);
+        window.location.reload(false);
+        window.open("/","_self")
+    }
+
+    useEffect(()=>{
+        const token = localStorage.getItem('accessToken')
+        const userId = localStorage.getItem('user_id')
+        if(token&&userId) {
+            setProfile("/user?id="+userId)
+            setIsSignedIn(true)
+        }
+    })
 
     const padding = {
         padding: 5
@@ -68,8 +87,21 @@ const App = () => {
                       />
                   </li>
                   <li><button id="searchButton" onClick={searchMovie}>Etsi</button></li>
-                  <li><Link style={padding} to="/login"><a>Kirjaudu sisään</a></Link></li>
-                  <li><Link style={padding} to="/register"><a>Rekisteröinti</a></Link></li>
+                  {
+                      isSignedIn ? (
+                          <>
+                              <li><Link onClick={logOut} style={padding} to="/"><a>Kirjaudu ulos</a></Link></li>
+                              <li><Link style={padding} to={profile}><a>Profiili</a></Link></li>
+                          </>
+
+                      ) : (
+                          <>
+                              <li><Link style={padding} to="/login"><a>Kirjaudu sisään</a></Link></li>
+                              <li><Link style={padding} to="/register"><a>Rekisteröinti</a></Link></li>
+                          </>
+
+                      )
+                  }
               </ul>
 
 

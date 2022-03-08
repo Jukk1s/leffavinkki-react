@@ -67,3 +67,8 @@ footer {
 .centerText{
     text-align: center;
 }
+
+.ratingStars{
+    font-size: 50px;
+    color: yellow;
+}

@@ -11,6 +11,7 @@ const SingleComment = (data) => {
             <h3>
                 {data.data.movie_title}
             </h3>
+
             <h3>
                 {data.data.header}
             </h3>
@@ -19,6 +20,9 @@ const SingleComment = (data) => {
             </h3>
             <h3>
                 {data.data.date}
+            </h3>
+            <h3 className="ratingStars">
+                * * * * *
             </h3>
         </div>
     )

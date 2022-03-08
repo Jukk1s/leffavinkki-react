@@ -31,6 +31,7 @@ const Login = () => {
                     localStorage.setItem('user_id', response.data.id);
                     console.log("Successful login attempt");
                     setIsSignedIn(true);
+                    window.open("/","_self")
                 } else {
                     console.log("Error with login")
                 }
@@ -83,6 +84,7 @@ const Login = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("user_id");
         setIsSignedIn(false);
+        window.location.reload(false);
     }
 
     return (
