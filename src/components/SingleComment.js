@@ -1,10 +1,11 @@
 import React from 'react'
+import '../comments.css'
 
 const SingleComment = (data) => {
     return(
         <div className='comment'>
             <h3>
-                {data.data.id}
+                {data.data.name}
             </h3>
             <h3>
                 {data.data.movie_title}
