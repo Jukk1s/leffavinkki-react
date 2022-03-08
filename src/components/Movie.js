@@ -10,7 +10,6 @@ const movieCommentsUrl = "/movies/getcomments?id=";
 const movieReviewsUrl = "/movies/getreviews?id=";
 
 const Movie = () => {
-    localStorage.removeItem('accessToken');
 
     const [isLoading, setLoading] = useState(true);
     const [movieComments, setMovieComments] = useState();
@@ -75,7 +74,7 @@ const Movie = () => {
                     <img src={movieData.Poster}/>
                     <h1>Juoni: {movieData.Plot}</h1>
                     <Comments data={movieComments}/>
-                    <CommentField/>
+                    <CommentField data={movieData}/>
                 </div>
 
         ) : (

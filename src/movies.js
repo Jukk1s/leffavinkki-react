@@ -2,6 +2,7 @@ const apiUrl = "http://www.omdbapi.com/?r=json&type=movie&";
 
 const verify = require('./verifyToken');
 const readToken = require('./readToken');
+const bodyParser = require("body-parser");
 const axios = require('axios').default;
 
 //Käytetään arraytä, sillä rajapinta rajoittaa 1000-hakemusta
@@ -20,13 +21,14 @@ module.exports = function(app, cors, url, query, fetch, bodyParser) {
     //JSON-muodossa.
     app.post('/movies/addcomment', verify, (req, res, next) => {
         //console.log(readToken.readId(req.header('auth-token')));
-        //console.log(req);
 
         let commentHeader = req.body.header;
         let comment = req.body.content;
         let movieId = req.body.movieId;
         let movieTitle = req.body.movieTitle;
         let userId = req.user.id;
+
+        console.log(commentHeader,comment,movieId,movieTitle,userId);
 
         if(commentHeader && comment && movieId && userId && movieTitle)
             try {
