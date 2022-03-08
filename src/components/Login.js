@@ -3,12 +3,12 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
-import {render} from "react-dom";
 
 const Login = () => {
     const loginUrl = 'http://localhost:8081/users/login'
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
+    const [isSignedIn, setIsSignedIn] = useState(false)
 
     const handleSubmit = async(event) => {
         const form = event.currentTarget;
@@ -28,7 +28,9 @@ const Login = () => {
             }).then((response) => {
                 if(response.status === 200){
                     localStorage.setItem('accessToken', response.data.accesstoken);
+                    localStorage.setItem('user_id', response.data.id);
                     console.log("Successful login attempt");
+                    setIsSignedIn(true);
                 } else {
                     console.log("Error with login")
                 }
@@ -71,18 +73,21 @@ const Login = () => {
     }
 
     const logOut = (event) => {
-        localStorage.setItem("auth-token", null);
-        localStorage.setItem("logged-user", null);
-        localStorage.setItem("logged-email", null);
-        localStorage.setItem("logged-id", null);
-
-        document.getElementById("logform").style.visibility = "visible";
-        document.getElementById("logOutBtn").style.visibility = "hidden";
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user_id");
+        setIsSignedIn(false);
     }
 
     return (
-        <body>
-        <div id="logregdiv" class="logreg_text">
+        isSignedIn? (
+            <body>
+            <div id="logregdiv" className="logreg_text">
+                <button id="logOutBtn" onClick={logOut} value="Kirjaudu ulos">Kirjaudu ulos</button>
+            </div>
+            </body>
+        ) : (
+            <body>
+            <div id="logregdiv" className="logreg_text">
             <Form id="logform"
                   noValidate
                   onSubmit={handleSubmit}>
@@ -92,7 +97,7 @@ const Login = () => {
                         <Form.Control
                             type="text"
                             class="input"
-                            onChange={e => setField('username',e.target.value)}
+                            onChange={e => setField('username', e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
                             {errors.name}
@@ -106,7 +111,7 @@ const Login = () => {
                             required
                             class="input"
                             type="password"
-                            onChange={e => setField('password',e.target.value)}
+                            onChange={e => setField('password', e.target.value)}
                         />
                         <Form.Control.Feedback type="invalid">
                             {errors.name}
@@ -114,18 +119,17 @@ const Login = () => {
                     </InputGroup>
                 </Form.Group>
 
-                <Button id="logInBtn"type="submit">
+                <Button id="logInBtn" type="submit">
                     Kirjaudu
                 </Button>
 
                 <div id="errorMessage"></div>
             </Form>
-
-            <button id="logOutBtn" onClick={logOut} value="Kirjaudu ulos">Kirjaudu ulos</button>
         </div>
         </body>
+        )
+
     )
-    render(<Login />)
 }
 
 export default Login
