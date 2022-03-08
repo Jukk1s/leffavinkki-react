@@ -26,8 +26,11 @@ const App = () => {
   const searchMovie = async(event) => {
       event.preventDefault()
       event.stopPropagation()
-      const searchField = document.getElementById('movieSearch');
+      const searchField = document.getElementById("movieSearch");
       const search = searchField.value
+      const testSearch = search.replace(/\s/g, '');
+      if(testSearch=="")
+          return
       searchField.value = "";
       try {
           let name = removeAekkoset(search.toLowerCase().replace(/  +/g, '%20').replace(/[\-[\]\\'/"]/g, "\\$&"));
@@ -37,7 +40,7 @@ const App = () => {
 
           const result = await getMovies(name,null,null).then(resp=>{
               localStorage.setItem(MOVIE_STORAGE_KEY, JSON.stringify(resp))
-              window.open("/");
+              window.open("/","_self");
           })
 
       } catch (e){
@@ -52,11 +55,23 @@ const App = () => {
           <Router>
               <ul>
                   <li><Link style={padding} to="/"><a>Koti</a></Link></li>
-                  <li><input id="movieSearch" placeholder="Elokuvan nimi" type="text"/></li>
-                  <li><button onClick={searchMovie}>Etsi</button></li>
+                  <li>
+                      <input
+                      id="movieSearch"
+                      placeholder="Elokuvan nimi"
+                      type="text"
+                      onKeyPress={(e)=>{
+                          if(e.key==="Enter"){
+                              document.getElementById('searchButton').click();
+                          }
+                      }}
+                      />
+                  </li>
+                  <li><button id="searchButton" onClick={searchMovie}>Etsi</button></li>
                   <li><Link style={padding} to="/login"><a>Kirjaudu sisään</a></Link></li>
                   <li><Link style={padding} to="/register"><a>Rekisteröinti</a></Link></li>
               </ul>
+
 
               <Routes>
                   <Route path="/login" element={<Login/>}/>
@@ -66,6 +81,18 @@ const App = () => {
                   <Route path="/movie" element={<Movie/>}/>
               </Routes>
           </Router>
+          <footer>
+              <div id="footer-1">
+                  <h4>Ryhmä ykkönen (1, eka)</h4>
+                  <h5>Jukka Hallikainen</h5>
+                  <h5>Eljas Hirvelä</h5>
+                  <h5>Arttu Pösö</h5>
+                  <img src={logo}/>
+              </div>
+              <div id="footer-2">
+                  <h4>Leffavinkit jo vuodesta 2021!</h4>
+              </div>
+          </footer>
 
       </div>
 

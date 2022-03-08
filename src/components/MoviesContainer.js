@@ -4,7 +4,7 @@ import MovieDisplay from "./MovieDisplay";
 export default function MoviesContainer({movies}) {
     if(movies!= null || movies!= undefined)
         return(
-            <div class="movies">{
+            <div id="resultField">{
                 movies.map(movie => {
                 return <MovieDisplay movieData={movie}/>
             })}
