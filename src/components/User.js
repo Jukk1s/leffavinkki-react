@@ -10,6 +10,8 @@ import profilePicture from "../img/profile.png"
 
 const server = "http://localhost:8081";
 
+const profileUpdateUrl = "http://localhost:8081/users/edit";
+
 function calculateStatus(data){
     let r = Number(data[1].reviews);
     if(r > 10)
@@ -31,6 +33,7 @@ const User = () => {
     const [isLoading, setLoading] = useState(true);
     const [userData, setUserData] = useState();
     const [userComments, setUserComments] = useState();
+    const [isOwnProfile, setIsOwnProfile] = useState(false)
 
     const [profileFound, setProfileFound] = useState(false);
 
@@ -62,8 +65,30 @@ const User = () => {
         setLoading(false);
     }, []);
 
+    useEffect(()=>{
+        const token = localStorage.getItem('accessToken')
+        const userId = localStorage.getItem('user_id')
+        if(token&&userId && id === userId)
+                setIsOwnProfile(true)
+
+    })
+
     if(isLoading){
         return <div className="profile">Ladataan...</div>
+    }
+
+    const updateProfile = async() => {
+        console.log(document.getElementById('statusTextArea').value.replace(/[\-[\]\\'/"]/g, "\\$&"))
+        try {
+            await axios.post(profileUpdateUrl, {
+                description: document.getElementById('statusTextArea').value.replace(/[\-[\]\\'/"]/g, "\\$&"),
+                token: localStorage.getItem('accessToken')
+            }, { headers: {'Authorization': 'Bearer: ' + localStorage.getItem('accessToken')}}).then((response)=>{
+                document.location.reload()
+            })
+        } catch (e){
+            console.log(e)
+        }
     }
 
     return (
@@ -78,21 +103,26 @@ const User = () => {
                     <img id="profilePicture" src={profilePicture}/>
                 </div>
                 <div id="middle">
+
                     <div className="sideL">
                         <h1/>
                     </div>
+
                     <div className="middle">
 
                         <h2 className="silver textCenter">Minusta</h2>
                         <h4 id="description" className="textCenter, white">{userData[1].description}</h4>
 
-                        <div id="editButton"></div>
+                        {
+                            isOwnProfile?<><textarea id="statusTextArea" placeholder={userData[1].description}></textarea><button onClick={updateProfile} id="editButton">Päivitä</button></>:<></>
+                        }
+
 
                         <h2 id="reviewsCount" className="reviewsCount">Kommentit</h2>
                         <Comments data={userComments}/>
                     </div>
 
-                    </div>
+
                     <div className="sideR">
                         <div id="info">
                             <h3>Status</h3>
@@ -105,6 +135,8 @@ const User = () => {
                             <h5 id="commentCount" className="reviewsCount">Kommenttien lukumäärä</h5>
                         </div>
                     </div>
+
+                </div>
             </div>
 
         ) : (

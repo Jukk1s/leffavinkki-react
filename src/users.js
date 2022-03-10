@@ -102,12 +102,13 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
     app.post('/users/edit', verify, (req,res) => {
 
         let description = req.body.description;
+        console.log(description)
 
-        if(description)
+        if(description && req.body.token)
             try {
                 (async () => {
                     let sql = "UPDATE profiles SET description = ? WHERE id = ?";
-                    const rows = await query(sql, [description, readToken.readId(req.header('auth-token'))]);
+                    const rows = await query(sql, [description, readToken.readId(req.body.token)]);
                     let string = JSON.stringify(rows);
 
                     res.header('profile'," Profiilin kuvaus muokattu.").send();

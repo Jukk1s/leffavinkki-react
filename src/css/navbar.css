@@ -71,4 +71,43 @@ footer {
 .ratingStars{
     font-size: 50px;
     color: yellow;
+    margin: 5px;
+}
+
+.comment {
+    border-radius: 10px;
+}
+
+.movieTitleText {
+    text-align: center;
+    text-decoration: underline;
+}
+
+.dateText {
+    text-align: right;
+}
+
+.commentHeaderText{
+    text-decoration: underline;
+    text-align: center;
+}
+
+.commentText{
+    margin-left: 10px;
+}
+
+#statusTextArea{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    resize: none;
+    width: 80%;
+    height: 120px;
+}
+
+#editButton{
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

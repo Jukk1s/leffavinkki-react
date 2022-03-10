@@ -39,6 +39,10 @@
     float: left;
     width: 59%;
 }
+#middle {
+    display: block;
+    overflow: auto;
+}
 
 .sideL, .sideR {
     width: 19%;

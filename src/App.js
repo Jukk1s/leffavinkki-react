@@ -90,7 +90,7 @@ const App = () => {
                   {
                       isSignedIn ? (
                           <>
-                              <li><Link onClick={logOut} style={padding} to="/"><a>Kirjaudu ulos</a></Link></li>
+                              <li><Link style={padding} to="/login"><a>Kirjaudu ulos</a></Link></li>
                               <li><Link style={padding} to={profile}><a>Profiili</a></Link></li>
                           </>
 
