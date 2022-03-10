@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 import {useLocation} from "react-router-dom";
+import '../css/comments.css'
 
 
 const CommentField = (movieData) => {
@@ -94,6 +95,8 @@ const CommentField = (movieData) => {
                 <Form.Group className="mb-3 newCommentFieldInput" controlId="formHeader">
                     <InputGroup>
                         <Form.Control
+                            as="textarea"
+                            cols="50"
                             type="text"
                             class="input"
                             placeholder="Otsikko"
@@ -107,6 +110,9 @@ const CommentField = (movieData) => {
                 <Form.Group className="mb-3 newCommentFieldInput" controlId="formComment">
                     <InputGroup>
                         <Form.Control
+                            as="textarea"
+                            rows="10"
+                            cols="50"
                             required
                             class="input"
                             type="text"
@@ -119,7 +125,7 @@ const CommentField = (movieData) => {
                     </InputGroup>
                 </Form.Group>
 
-                <Button id="commentBtn"type="submit">
+                <Button id="commentBtn" type="submit">
                     Lähetä
                 </Button>
             </Form>
