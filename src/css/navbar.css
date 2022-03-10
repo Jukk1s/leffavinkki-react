@@ -19,6 +19,12 @@ li {
     float: left;
 }
 
+#welcomeText {
+    float: right;
+    margin-top: 1.7%;
+    margin-right: 4%;
+}
+
 li input {
     display: block;
     margin-top: 5px;

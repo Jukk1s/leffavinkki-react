@@ -96,7 +96,7 @@ const App = () => {
                           <>
                               <li><Link style={padding} to="/login"><a>Kirjaudu ulos</a></Link></li>
                               <li><Link style={padding} to={profile}><a>Profiili</a></Link></li>
-                              <h1>Tervetuloa {username}</h1>
+                              <li id="welcomeText">Tervetuloa {username}!</li>
                           </>
 
                       ) : (
