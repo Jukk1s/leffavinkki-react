@@ -216,3 +216,44 @@ footer {
     margin-left: auto;
     margin-right: auto;
 }
+
+.starHighlight {
+    color: yellow !important;
+}
+
+#rStar1, #rStar2, #rStar3, #rStar4, #rStar5 {
+    color: gray;
+    font-size: 50px;
+    border: none;
+    background-color: white;
+}
+
+#reviewButton{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 24px;
+    background-color: orange;
+    border-radius: 5px;
+    padding: 5px;
+    display: block;
+}
+
+#reviewField{
+    padding: 20px;
+    background-color: white;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#reviewStarField{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#reviewStarField h3{
+    margin: 5px;
+    font-size: 40px;
+    display: inline-block;
+}

@@ -34,6 +34,7 @@ const User = () => {
     const [userData, setUserData] = useState();
     const [userComments, setUserComments] = useState();
     const [isOwnProfile, setIsOwnProfile] = useState(false)
+    const [userCommentCount, setCommentCount] = useState(0)
 
     const [profileFound, setProfileFound] = useState(false);
 
@@ -52,6 +53,7 @@ const User = () => {
                             const comments = await axios.get(server+"/usercomments?id="+id)
                             if(comments.data){
                                 setUserComments(comments.data)
+                                setCommentCount(comments.data.length)
                             }
                         }
                     }
@@ -130,9 +132,9 @@ const User = () => {
                             <h3>Katsotuimmat genret</h3>
                             <h5 id="mostViewed">Genret joita käyttäjä eniten arvostellut (ei implementoitu)</h5>
                             <h3>Arvostelut</h3>
-                            <h5 id="reviewsC">{userData[1].reviews}</h5>
+                            <h5 id="reviewsC">{userData[1].reviews} kpl</h5>
                             <h3>Kommentit</h3>
-                            <h5 id="commentCount" className="reviewsCount">Kommenttien lukumäärä</h5>
+                            <h5 id="commentCount" className="reviewsCount"> {userCommentCount} kpl</h5>
                         </div>
                     </div>
 

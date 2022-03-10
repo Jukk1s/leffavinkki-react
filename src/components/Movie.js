@@ -3,6 +3,7 @@ import {useLocation} from "react-router-dom";
 import axios from "axios";
 import Comments from "./Comments";
 import CommentField from "./CommentField";
+import ReviewField from "./ReviewField"
 import place_holder from '../img/poster_holder.jpg'
 
 const server = "http://localhost:8081";
@@ -14,6 +15,8 @@ const Movie = () => {
 
     const [isLoading, setLoading] = useState(true);
     const [movieComments, setMovieComments] = useState();
+    const [movieRatings, setMovieRatings] = useState([]);
+    const [movieAverage, setMovieAverage] = useState();
     const [movieData, setMovieData] = useState();
     const [isSignedIn, setIsSignedIn] = useState(false);
 
@@ -51,6 +54,17 @@ const Movie = () => {
                         console.log(comments.data)
                         setMovieComments(comments.data)
                     }
+                    await axios.get(server+movieReviewsUrl+movieId).then(resp => {
+                        console.log('REVIEWS: ', resp.data)
+                        setMovieRatings(resp.data)
+                        let sum = 0;
+                        for(let i = 0; i < resp.data.length; i++){
+
+                            sum += resp.data[i].review
+                        }
+                        setMovieAverage(sum/resp.data.length)
+                    })
+
                 } catch (error){
                     console.log("error")
                 }
@@ -80,16 +94,18 @@ const Movie = () => {
                     </div>
 
                     <div className="movieInfo">
+                        <h3 className="movieInfoText">LeffaVinkki: {movieAverage}/5 ({movieRatings.length} ääntä)</h3>
                         <h3 className="movieInfoText">IMDB-arvostelu: {movieData.imdbRating}/10</h3>
                         <h3 className="movieInfoText">Pituus: {movieData.Runtime}</h3>
                         <h3 className="movieInfoText">Genre: {movieData.Genre}</h3>
                     </div>
 
                     <div className="movieDescription">
-                        <p className="movieDescriptionText">Juoni: {movieData.Plot}</p>
+                        <p className="movieDescriptionText">{movieData.Plot}</p>
                     </div>
                     {
                         isSignedIn ? <>
+                            <ReviewField></ReviewField>
                             <CommentField className="newCommentField" data={movieData}/>
                         </>:<></>
                     }

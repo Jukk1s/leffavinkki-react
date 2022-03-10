@@ -24,9 +24,6 @@ const SingleComment = (data) => {
             <h5 className="dateText">
                 {data.data.date}
             </h5>
-            <h3 className="ratingStars">
-                * * * * *
-            </h3>
         </div>
     )
 }
