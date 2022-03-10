@@ -27,9 +27,11 @@ const Login = () => {
                 name: form.formName.value,
                 password: form.formPassword.value
             }).then((response) => {
+                console.log(response.data)
                 if(response.status === 200){
                     localStorage.setItem('accessToken', response.data.accesstoken);
                     localStorage.setItem('user_id', response.data.id);
+                    localStorage.setItem('username', response.data.username);
                     console.log("Kirjautuminen onnistui");
                     setIsSignedIn(true);
                     window.open("/","_self")
@@ -86,6 +88,7 @@ const Login = () => {
     const logOut = (event) => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("user_id");
+        localStorage.removeItem("username");
         setIsSignedIn(false);
         window.location.reload(false);
     }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import MoviesContainer from "./MoviesContainer";
 import '../css/profile.css'
-import '../index.css'
+import '../css/index.css'
 import notFoundImage from '../img/poster_holder.jpg'
 
 const MOVIE_STORAGE_KEY = "lastSearch"
