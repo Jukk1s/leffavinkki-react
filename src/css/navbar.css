@@ -21,14 +21,13 @@ li {
 }
 
 #logonav {
-    height: 43px;
+    height: 42px;
     margin: 0 12px 0 20px;
     padding: 0;
 }
 
 #welcomeText {
     float:right;
-    margin-right: 4%;
 }
 
 @media (max-width: 1050px){
@@ -156,7 +155,7 @@ footer {
 
 .moviePagePoster {
     display: block;
-    max-height: 700px;
+    max-height: 450px;
     margin-left: auto;
     margin-right: auto;
 }
