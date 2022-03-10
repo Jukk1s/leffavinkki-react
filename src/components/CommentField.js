@@ -39,6 +39,7 @@ const CommentField = (movieData) => {
                 } else {
                     console.log("Error with posting comment")
                 }
+                window.location.reload();
             });
         } catch (e){
             console.error(e);
