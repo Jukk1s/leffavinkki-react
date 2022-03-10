@@ -1,5 +1,5 @@
 import React from 'react'
-import '../comments.css'
+import '../css/comments.css'
 
 const SingleComment = (data) => {
     const href = "/user?id="+data.data.users_id;

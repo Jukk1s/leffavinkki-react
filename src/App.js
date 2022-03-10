@@ -14,12 +14,15 @@ import Register from './components/Register'
 import User from './components/User'
 import Movie from './components/Movie'
 import {getMovies, removeAekkoset} from "./scripts/movie-functions";
+import axios from "axios";
 
 const MOVIE_STORAGE_KEY = "lastSearch"
 
 const App = () => {
     const [isSignedIn, setIsSignedIn] = useState(false)
     const [profile, setProfile] = useState(null)
+    const [username, setUsername] = useState('');
+
 
     const logOut = (event) => {
         localStorage.removeItem("accessToken");
@@ -32,8 +35,10 @@ const App = () => {
     useEffect(()=>{
         const token = localStorage.getItem('accessToken')
         const userId = localStorage.getItem('user_id')
+        const username = localStorage.getItem('username')
         if(token&&userId) {
             setProfile("/user?id="+userId)
+            setUsername(username);
             setIsSignedIn(true)
         }
     })
@@ -70,7 +75,6 @@ const App = () => {
   return (
 
       <div>
-
           <Router>
               <ul>
                   <li><Link style={padding} to="/"><a>Koti</a></Link></li>
@@ -92,6 +96,7 @@ const App = () => {
                           <>
                               <li><Link style={padding} to="/login"><a>Kirjaudu ulos</a></Link></li>
                               <li><Link style={padding} to={profile}><a>Profiili</a></Link></li>
+                              <h1>Tervetuloa {username}</h1>
                           </>
 
                       ) : (

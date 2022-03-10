@@ -3,7 +3,7 @@ import axios from 'axios'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
-import '../LogReg.css'
+import '../css/LogReg.css'
 
 const Register = () => {
     const loginUrl = 'http://localhost:8081/users/register'
