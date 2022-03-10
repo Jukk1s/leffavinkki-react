@@ -13,6 +13,7 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: orange;
+    position: relative;
 }
 
 li {
@@ -20,9 +21,9 @@ li {
 }
 
 #welcomeText {
-    float: right;
-    margin-top: 1.7%;
-    margin-right: 4%;
+    position: absolute;
+    top: 35%;
+    right: 5%;
 }
 
 li input {
