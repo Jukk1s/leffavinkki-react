@@ -22,10 +22,10 @@ module.exports = function(app, cors, url, query, fetch, bodyParser) {
     app.post('/movies/addcomment', verify, (req, res, next) => {
         //console.log(readToken.readId(req.header('auth-token')));
 
-        let commentHeader = req.body.header;
-        let comment = req.body.content;
-        let movieId = req.body.movieId;
-        let movieTitle = req.body.movieTitle;
+        let commentHeader = req.body.header.replace(/[^\x20-\x7E]+/g, '');
+        let comment = req.body.content.replace(/[^\x20-\x7E]+/g, '');
+        let movieId = req.body.movieId.replace(/[^\x20-\x7E]+/g, '');
+        let movieTitle = req.body.movieTitle.replace(/[^\x20-\x7E]+/g, '');
         let userId = req.user.id;
 
         console.log(commentHeader,comment,movieId,movieTitle,userId);

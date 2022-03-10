@@ -30,6 +30,7 @@ const Register = () => {
             }).then(resp => {
                 if(resp.status === 200){
                     console.log("Rekisteröinti onnistui!");
+                    window.open("/login","_self")
                 } else {
                     console.log("Virhe rekisteröinnissä.")
                 }

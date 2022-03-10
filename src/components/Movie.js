@@ -3,6 +3,7 @@ import {useLocation} from "react-router-dom";
 import axios from "axios";
 import Comments from "./Comments";
 import CommentField from "./CommentField";
+import place_holder from '../img/poster_holder.jpg'
 
 const server = "http://localhost:8081";
 const movieSearchUrl = "/movies";
@@ -37,6 +38,7 @@ const Movie = () => {
                             const data = resp.data
                             console.log(data)
                             localStorage.setItem("movieData", JSON.stringify(data))
+
                             setMovieData(data)
                         } else {
                             console.log("Virhe elokuvien hakemisessa.")
@@ -73,7 +75,7 @@ const Movie = () => {
                             <h3 className="movieDetailsText">Metascore: {movieData.Metascore}</h3>
                         </div>
                         <div className="movieDisplayRight">
-                            <img className="moviePagePoster" src={movieData.Poster}/>
+                            <img className="moviePagePoster" src={movieData.Poster} onError={(e)=>{e.target.onerror = null; e.target.src=place_holder}} />
                         </div>
                     </div>
 

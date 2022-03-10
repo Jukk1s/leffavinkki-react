@@ -21,9 +21,18 @@ li {
 }
 
 #welcomeText {
-    position: absolute;
-    top: 35%;
-    right: 5%;
+    float:right;
+    margin-right: 4%;
+}
+
+@media (max-width: 1050px){
+    #welcomeText {
+        display: none;
+    }
+}
+
+.navbarRightElement{
+    margin-left: 4%;
 }
 
 li input {
@@ -140,6 +149,7 @@ footer {
 
 .moviePagePoster {
     display: block;
+    max-height: 700px;
     margin-left: auto;
     margin-right: auto;
 }

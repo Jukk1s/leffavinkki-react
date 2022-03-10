@@ -76,8 +76,8 @@ const App = () => {
 
       <div>
           <Router>
-              <ul>
-                  <li><Link style={padding} to="/"><a>Koti</a></Link></li>
+              <ul id="navbar">
+                  <li className="navbarRightElement"><Link style={padding} to="/"><a>Koti</a></Link></li>
                   <li>
                       <input
                       id="movieSearch"
@@ -96,7 +96,11 @@ const App = () => {
                           <>
                               <li><Link style={padding} to="/login"><a>Kirjaudu ulos</a></Link></li>
                               <li><Link style={padding} to={profile}><a>Profiili</a></Link></li>
-                              <li id="welcomeText">Tervetuloa {username}!</li>
+                              <li id="welcomeText">
+                                  <Link style={padding} to={profile}><a>
+                                      Tervetuloa {username}!
+                                  </a></Link>
+                              </li>
                           </>
 
                       ) : (

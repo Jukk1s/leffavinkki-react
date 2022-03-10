@@ -101,7 +101,7 @@ module.exports = function(app, cors, url, query, dotenv,jwt, bodyParser) {
 
     app.post('/users/edit', verify, (req,res) => {
 
-        let description = req.body.description;
+        let description = req.body.description.replace(/[^\x20-\x7E]+/g, '');
         console.log(description)
 
         if(description && req.body.token)
