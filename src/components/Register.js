@@ -11,13 +11,16 @@ const Register = () => {
     const [errors, setErrors] = useState({})
 
     const handleSubmit = async(event) => {
+        const form = event.currentTarget;
         event.preventDefault()
         event.stopPropagation()
-        const newErrors = findFormErrors();
 
+        const newErrors = findFormErrors();
+        console.log(newErrors)
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
-        } else return;
+            return
+        }
 
         try {
             await axios.post(loginUrl, {
@@ -35,17 +38,20 @@ const Register = () => {
             console.error(e);
         }
         form.reset()
+        setErrors(newErrors)
     }
 
     const setField = (field, value) => {
         setForm({
+            ...form,
             [field]: value
         })
+        console.log(form)
     }
 
     const findFormErrors = () => {
         const {name, email, password} = form
-        const newErrors = {}
+        let newErrors = {}
         if ( !name || name === '' ) newErrors.name = 'Anna käyttäjänimi'
         else if ( !email || email === '' ) newErrors.email = 'Anna sähköposti'
         else if ( !password || password === '' ) newErrors.password = 'Anna salasana'
@@ -66,9 +72,9 @@ const Register = () => {
                                 required
                                 class="input"
                                 type="text"
-                                onChange={e => setField('username',e.target.value)}
+                                onChange={e => setField('name',e.target.value)}
                             />
-                            <Form.Control.Feedback type="invalid">
+                            <Form.Control.Feedback style={{ color: 'red' }} type="invalid">
                                 {errors.name}
                             </Form.Control.Feedback>
                         </InputGroup>
@@ -83,8 +89,8 @@ const Register = () => {
                                 type="email"
                                 onChange={e => setField('email',e.target.value)}
                             />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.name}
+                            <Form.Control.Feedback style={{ color: 'red' }} type="invalid">
+                                {errors.email}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>
@@ -98,8 +104,8 @@ const Register = () => {
                                 type="password"
                                 onChange={e => setField('password',e.target.value)}
                             />
-                            <Form.Control.Feedback type="invalid">
-                                {errors.name}
+                            <Form.Control.Feedback style={{ color: 'red' }} type="invalid">
+                                {errors.password}
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Form.Group>

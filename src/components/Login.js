@@ -16,10 +16,11 @@ const Login = () => {
         event.stopPropagation();
 
         const newErrors = findFormErrors();
-
+        console.log(newErrors)
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
-        } else return;
+            return
+        }
 
         try {
             await axios.post(loginUrl, {
@@ -29,11 +30,11 @@ const Login = () => {
                 if(response.status === 200){
                     localStorage.setItem('accessToken', response.data.accesstoken);
                     localStorage.setItem('user_id', response.data.id);
-                    console.log("Successful login attempt");
+                    console.log("Kirjautuminen onnistui");
                     setIsSignedIn(true);
                     window.open("/","_self")
                 } else {
-                    console.log("Error with login")
+                    console.log("Virhe kirjautumisessa")
                 }
             });
         } catch (e){
@@ -51,8 +52,10 @@ const Login = () => {
 
     const setField = (field, value) => {
         setForm({
+            ...form,
             [field]: value
         })
+        console.log(form)
     }
 
 /*
@@ -106,9 +109,9 @@ const Login = () => {
                         <Form.Control
                             type="text"
                             class="input"
-                            onChange={e => setField('username', e.target.value)}
+                            onChange={e => setField('name', e.target.value)}
                         />
-                        <Form.Control.Feedback type="invalid">
+                        <Form.Control.Feedback style={{ color: 'red' }} type="invalid">
                             {errors.name}
                         </Form.Control.Feedback>
                     </InputGroup>
@@ -122,8 +125,8 @@ const Login = () => {
                             type="password"
                             onChange={e => setField('password', e.target.value)}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.name}
+                        <Form.Control.Feedback style={{ color: 'red' }} type="invalid">
+                            {errors.password}
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
