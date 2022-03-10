@@ -30,6 +30,7 @@ function calculateStatus(data){
 }
 
 const User = () => {
+    document.title = "LeffaVinkki - Profiili"
     const [isLoading, setLoading] = useState(true);
     const [userData, setUserData] = useState();
     const [userComments, setUserComments] = useState();
@@ -95,7 +96,7 @@ const User = () => {
 
     return (
         profileFound? (
-            <div>
+            <div className="profileContent">
                 <div className="profile" id="top">
                     <div id="profiilitekstit">
                         <h1 id="name">Nimi: {userData[0].name}</h1>
@@ -142,7 +143,7 @@ const User = () => {
             </div>
 
         ) : (
-            <div>
+            <div className="notFound">
                 <h1 className="white textCenter">Profiilia ei löytynyt</h1>
             </div>
         )

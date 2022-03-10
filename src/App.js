@@ -20,6 +20,7 @@ import axios from "axios";
 const MOVIE_STORAGE_KEY = "lastSearch"
 
 const App = () => {
+    document.title = 'LeffaVinkki - Se paras'
     const [isSignedIn, setIsSignedIn] = useState(false)
     const [profile, setProfile] = useState(null)
     const [username, setUsername] = useState('');

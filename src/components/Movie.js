@@ -41,10 +41,13 @@ const Movie = () => {
                             const data = resp.data
                             console.log(data)
                             localStorage.setItem("movieData", JSON.stringify(data))
+                            document.title = 'LeffaVinkki - '+resp.data.Title
 
                             setMovieData(data)
                         } else {
                             console.log("Virhe elokuvien hakemisessa.")
+
+                            document.title = 'LeffaVinkki'
                         }
                     });
                     setLoading(false)

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 
 const Login = () => {
+    document.title = 'LeffaVinkki - Kirjaudu'
     const loginUrl = 'http://localhost:8081/users/login'
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})

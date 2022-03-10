@@ -11,7 +11,7 @@ const MovieDisplay = ({movieData}) => {
     return(
         <div className='movieDiv'>
             <a href={href}>
-                <h3>
+                <h3 className="movieDisplayName">
                     {movieData.Title}
                 </h3>
                 <img className="poster" src={image}/>

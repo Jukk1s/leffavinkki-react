@@ -7,6 +7,7 @@ import notFoundImage from '../img/poster_holder.jpg'
 const MOVIE_STORAGE_KEY = "lastSearch"
 
 const Home = () => {
+    document.title = 'LeffaVinkki - Se paras'
     const [movies, setMovies] = useState([])
     const [moviesFound, setMoviesFound] = useState(false)
 
