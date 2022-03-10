@@ -85,12 +85,12 @@ const CommentField = (movieData) => {
         </body>*/
 
         <body>
-        <div className="comment">
+        <div className="comment newCommentField">
             <Form
                 id="commentForm"
                 noValidate
                 onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formHeader">
+                <Form.Group className="mb-3 newCommentFieldInput" controlId="formHeader">
                     <InputGroup>
                         <Form.Control
                             type="text"
@@ -103,7 +103,7 @@ const CommentField = (movieData) => {
                         </Form.Control.Feedback>
                     </InputGroup>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formComment">
+                <Form.Group className="mb-3 newCommentFieldInput" controlId="formComment">
                     <InputGroup>
                         <Form.Control
                             required

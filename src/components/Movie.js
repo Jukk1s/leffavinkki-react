@@ -61,23 +61,6 @@ const Movie = () => {
     }
 
     return (
-        isSignedIn? (
-                <div className="profile">
-                    <h1>Nimi: {movieData.Title}</h1>
-                    <h1>IMDB-arvostelu: {movieData.imdbRating}/10</h1>
-                    <h1>Pituus: {movieData.Runtime}</h1>
-                    <h1>Genre: {movieData.Genre}</h1>
-                    <h1>Ohjaaja: {movieData.Director}</h1>
-                    <h1>Kirjoittaja: {movieData.Writer}</h1>
-                    <h1>Näyttelijät: {movieData.Actors}</h1>
-                    <h1>Metascore: {movieData.Metascore}</h1>
-                    <img src={movieData.Poster}/>
-                    <h1>Juoni: {movieData.Plot}</h1>
-                    <Comments data={movieComments}/>
-                    <CommentField data={movieData}/>
-                </div>
-
-        ) : (
                 <div className="movieOwnDiv">
                     <h1 className="movieTitle">{movieData.Title}</h1>
 
@@ -103,11 +86,14 @@ const Movie = () => {
                     <div className="movieDescription">
                         <p className="movieDescriptionText">Juoni: {movieData.Plot}</p>
                     </div>
+                    {
+                        isSignedIn ? <>
+                            <CommentField className="newCommentField" data={movieData}/>
+                        </>:<></>
+                    }
 
                     <Comments data={movieComments}/>
                 </div>
-        )
-
     )
 
 }

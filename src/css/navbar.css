@@ -174,3 +174,22 @@ footer {
     margin-left: auto;
     padding: 10px;
 }
+
+.newCommentField{
+    width: 50%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.newCommentFieldInput{
+    margin: 10px;
+}
+
+#commentBtn{
+    display: block;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
