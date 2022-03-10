@@ -2,6 +2,7 @@ import './css/navbar.css'
 import React, {useState, useEffect} from 'react'
 
 import logo from './img/leffavinkki.png'
+import logo2 from './img/leffavinkki2.png'
 
 import {
     BrowserRouter as Router,
@@ -77,7 +78,7 @@ const App = () => {
       <div>
           <Router>
               <ul id="navbar">
-                  <li className="navbarRightElement"><Link style={padding} to="/"><a>Koti</a></Link></li>
+                  <li className="navbarRightElement"><Link style={padding} to="/"><img id="logonav" src={logo2}/></Link></li>
                   <li>
                       <input
                       id="movieSearch"

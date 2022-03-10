@@ -20,6 +20,12 @@ li {
     float: left;
 }
 
+#logonav {
+    height: 43px;
+    margin: 0 12px 0 20px;
+    padding: 0;
+}
+
 #welcomeText {
     float:right;
     margin-right: 4%;
@@ -32,7 +38,8 @@ li {
 }
 
 .navbarRightElement{
-    margin-left: 4%;
+    margin: 0;
+    padding: 0;
 }
 
 li input {
