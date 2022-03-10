@@ -6,9 +6,6 @@ const SingleComment = (data) => {
     const hrefMovie = "/movie?id="+data.data.movie_id;
     return(
         <div className='comment'>
-            <a href={href}>
-                <h3>{data.data.name}</h3>
-            </a>
             <a href={hrefMovie}>
                 <h3 className="movieTitleText">
                     {data.data.movie_title}
@@ -21,6 +18,9 @@ const SingleComment = (data) => {
             <p className="commentText">
                 {data.data.comment}
             </p>
+            <a className="authorText" href={href}>
+                <h3>{data.data.name}</h3>
+            </a>
             <h5 className="dateText">
                 {data.data.date}
             </h5>

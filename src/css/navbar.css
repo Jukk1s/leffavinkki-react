@@ -96,6 +96,10 @@ footer {
     margin-left: 10px;
 }
 
+.authorText{
+    text-align: right;
+}
+
 #statusTextArea{
     display: block;
     margin-left: auto;
@@ -110,4 +114,63 @@ footer {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+.movieTitle{
+    text-align: center;
+    color: white;
+}
+
+.movieInfo{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: orange;
+}
+
+.movieInfoText{
+    text-align: center;
+}
+
+.moviePagePoster {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.movieOwnDiv{
+    margin-top: 150px;
+}
+
+.movieDisplay {
+    padding-left: 50px;
+    display: flex;
+}
+
+.movieDetailsText{
+    color: black;
+}
+
+.movieDisplayLeft{
+    width: 40%;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: orange;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.movieDisplayRight{
+
+}
+
+.movieDescriptionText{
+    color: white;
+    font-size: 20px;
+}
+
+.movieDescription{
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 10px;
 }
