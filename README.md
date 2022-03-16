@@ -1,70 +1,173 @@
-# Getting Started with Create React App
+# LeffaVinkki
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Projekti toteutettiin front puolella React.js:llä ja back-end Noje.js:llä
 
-## Available Scripts
+##Tekijät:
+####-Jukka Hallikainen
+####-Eljas Hirvelä
+####-Arttu Pösö
 
-In the project directory, you can run:
+## Kehitysympäristön toimintakuntoon laittaminen
+
+Jotta palvelin saadaan toimintaan tarvitset src hakemistoon '.env' tiedoston, joka ei löydy GitLab:sta.
+
+Projektin hakemistossa suorita komento:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+LeffaVinkki pyörii komennon jälkeen osoitteessa: [http://localhost:3000](http://localhost:3000)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+### Suorita src hakemistosta server.js
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Projektin hakemiston src (source) kansiosta löytyy palvelin server.js, jonka täytyy pyöriä taustalla.
+Palvelin pyörii portissa 8081
 
-### `npm run build`
+<br>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Rest-api kutsut ja JSON palautukset
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+##Käyttäjiin liittyvät:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+###GET /users
+####-Palauttaa kaikki käyttäjät tietokannasta JSON muodossa
 
-### `npm run eject`
+<br>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+###GET /user
+####-Palauttaa tietyn käyttäjän tiedot käyttäen parametrina käyttäjän ID:tö.<br>Käyttäjän ID annetaan URL parametrina muotoa: /user?id=4
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+###GET /users/edit
+####-Kutsulla täytyy olla ennen varsinaista lähetystä lähtevä header 'Authorization'
+####-Kutsun yhteydessä lähetetään palvelimelle JSON, joka sisältää arvot 'description' ja 'token' arvot.
+####-Esimerkki kutsu Axios:lla
+    await axios.post('http://localhost:8081/users/edit', {
+                    description: 'uusi profiili teksti',
+                    token: localStorage.getItem('accessToken')
+                }, { headers: {'Authorization': 'Bearer: ' + localStorage.getItem('accessToken')}}).then((response)=>{
+                    ...
+                })
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<br>
 
-## Learn More
+###POST /users/register
+####-Kutsussa lähetetään JSON parametrein:
+1.  password
+2.  email
+3.  name
+####-Palautuksena tulee header 'register', joka sisältää tekstin siitä onnistuiko vai epäonnistuiko rekisteröinti
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+###POST /users/login
+####-Kutsun yhteydessä lähetetään JSON parametrein:
+1.  password
+2.  name
+####-Jos kirjautuminen onnistuu vastaa palvelin statuksella 200 ja palauttaa JSON tiedoston, joka sisältää arvot:
+1.  accessToken -*käyttäjän pääsytunnut*
+2.  username -*käyttäjän nimi*
+3.  email -*käyttäjän sähköpostiosoite*
+4.  id -*käyttäjän id*
+5.  login -*teksti kirjautumisen onnistumisesta*
+6.  status -*teksti onnistumisesta*
 
-### Code Splitting
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+##Elokuviin liittyvät:
 
-### Analyzing the Bundle Size
+###POST /movies/addcomment
+####-Kutsulla täytyy olla ennen varsinaista lähetystä lähtevä header 'Authorization'
+####-Kutsun yhteydessä lähetetään palvelimelle JSON, joka sisältää arvot 'header', 'content', 'movieId' ja 'movieTitle' arvot.
+####-Esimerkki kutsu Axios:lla
+    await axios.post('http://localhost:8081/movies/addcomment', {
+        header: form.formHeader.value,
+        content: form.formComment.value,
+        movieId: movieId,
+        movieTitle: movieData.data.Title
+    },{ headers: {'Authorization': 'Bearer: ' + token}
+    }).then((response) => {
+        if(response.status === 200){
+            //mitä tehdään kun onnistui
+        } else {
+            //jos ei onnistunut
+        }
+        ...
+    });
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<br>
 
-### Making a Progressive Web App
+###POST /movies/addrating
+####-Kutsulla täytyy olla ennen varsinaista lähetystä lähtevä header 'Authorization'
+####-Kutsun yhteydessä lähetetään palvelimelle JSON, joka sisältää arvot 'rating' ja 'movie_id' arvot.
+####-Esimerkki kutsu Axios:lla
+    await axios.post("http://localhost:8081/movies/addrating", {
+            rating: review,
+            movie_id: movieId
+        }, { headers: {'Authorization': 'Bearer: ' + token}
+        }).then((response) => {
+            if(response.status === 200){
+                //Arvostelu onnistui
+            } else {
+                //Arvostelu ei onnistunut
+            }
+            ...
+    });
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<br>
 
-### Advanced Configuration
+###GET /movies/recommended
+####-Palvelin palauttaa tietokannasta admin käyttäjien 'suosituksia'. Tätä ominaisuutta ei käytetty tässä versiossa.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+<br>
 
-### Deployment
+###POST /movies
+####-Käytetään elokuvien hakuun omdbapi-apista.
+####-Kutsun yhteydessä täytyy URL:n sisältää vähintään yksi näistä parametreista:
+1.  s -*elokuvan nimi*
+2.  y -*elokuvan valmistus vuosi*
+3.  i -*omdbapi:n oma parametri, ei käytetty tässä toteutuksessa*
+4.  plot -*omdbapi:n oma parametri, ei käytetty tässä toteutuksessa*
+5.  page -*Kuinka monta sivullista haetaan elokuvia (1 sivu = 10 elokuvaa) MAX 3*
+####-Palvelin palauttaa JSON-tiedoston haettuaan omdbapi:sta parametreilla elokuvan/elokuvat
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<br>
 
-### `npm run build` fails to minify
+###GET /movies/getreviews
+####-Käytetään elokuva kohtaisten arviointien hakemiseen
+####-Pyynnön mukana täytyy URL:n sisältää parametri id:
+    http://localhost:8081/getreviews?id=elokuvanid
+####-Palvelimen palauttama JSON sisältää kaikki tälle elokuvalle annetut arvioinnit
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<br>
+
+###GET /movies/getcomments
+####-Käytetään elokuva kohtaisten kommentien hakemiseen
+####-Pyynnön mukana täytyy URL:n sisältää parametri id
+    http://localhost:8081/getcomments?id=elokuvanid
+####-Palvelimen palauttama JSON sisältää kaikki tälle elokuvalle annetut kommentit
+
+<br>
+
+###GET /usercomments
+####-Käytetään tietyn käyttäjä tekemien kommentien hakemiseen
+####-Pyynnön mukana täytyy URL:n sisältää parametri id:
+    http://localhost:8081/usercomments?id=käyttäjänid
+####-Palvelin palauttaa JSON:in mikä sisältää käyttäjän tekemät kommentit
+
+<br>
+
+###GET /userreviews
+####-Käytetään tietyn käyttäjän tekemien arviointien hakemiseen
+####-Pyynnön mukana täytyy URL:n sisältää parametri id:
+    http://localhost:8081/userreviews?id=käyttäjänid
+####-Palvelin palauttaa JSON:in mikä sisältää käyttäjän tekemät arvioinnit
+
+<br>
+
+###GET /getusername
+####-Käytetään käyttäjänimen hakemiseen ID:llä
+####-Pyynnön mukana täytyy URL:n sisältää parametri id:
+    http://localhost:8081/getusername/?id=käyttäjänid
+####-Palvelin palauttaa JSON:in mikä sisältää pelkästään käyttäjän nimen
