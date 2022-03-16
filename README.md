@@ -2,10 +2,10 @@
 
 Projekti toteutettiin front puolella React.js:llä ja back-end Noje.js:llä
 
-##Tekijät:
-####-Jukka Hallikainen
-####-Eljas Hirvelä
-####-Arttu Pösö
+## Tekijät:
+#### -Jukka Hallikainen
+#### -Eljas Hirvelä
+#### -Arttu Pösö
 
 ## Kehitysympäristön toimintakuntoon laittaminen
 
